@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3000") // ✅ allow frontend
 public class AuthController {
 
     private final UserService userService;
@@ -21,9 +22,17 @@ public class AuthController {
         return userService.registerUser(user);
     }
 
-    // LOGIN API
+    // LOGIN API (UPDATED ✅)
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
-        return userService.loginUser(request.getEmail(), request.getPassword());
+    public User login(@RequestBody LoginRequest request) {
+        User user = userService.loginUser(
+                request.getEmail(),
+                request.getPassword()
+        );
+
+        // ❌ DO NOT SEND PASSWORD
+        user.setPassword(null);
+
+        return user;
     }
 }

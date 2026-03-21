@@ -19,6 +19,9 @@ public class Expense {
 
     private LocalDate date;
 
+    // ✅ NEW FIELD
+    private String type; // "credit" or "debit"
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -45,6 +48,10 @@ public class Expense {
         return date;
     }
 
+    public String getType() {   // ✅ getter
+        return type;
+    }
+
     public User getUser() {
         return user;
     }
@@ -67,6 +74,10 @@ public class Expense {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setType(String type) {   // ✅ setter
+        this.type = type;
     }
 
     public void setUser(User user) {

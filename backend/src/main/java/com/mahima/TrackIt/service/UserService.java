@@ -27,8 +27,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // LOGIN USER
-    public String loginUser(String email, String password) {
+    // LOGIN USER (UPDATED ✅)
+    public User loginUser(String email, String password) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -37,6 +37,6 @@ public class UserService {
             throw new RuntimeException("Invalid password");
         }
 
-        return jwtService.generateToken(email);
+        return user; // ✅ RETURN FULL USER (with id)
     }
 }
