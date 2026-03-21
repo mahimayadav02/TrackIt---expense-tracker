@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:17-jdk-jdkFROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN chmod +x mvnw
 
 RUN ./mvnw clean package -DskipTests
 
-CMD ["java", "-jar", "target/*.jar"]FROM eclipse-temurin:17-jdk
+CMD sh -c "java -jar target/*.jar"
 
 WORKDIR /app
 
