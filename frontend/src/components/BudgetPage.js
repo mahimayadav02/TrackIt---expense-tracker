@@ -8,20 +8,20 @@ function BudgetPage({ expenses }) {
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
 
-  // ✅ GET LOGGED IN USER
-  const user = JSON.parse(localStorage.getItem("user"));
+  // ✅ STABLE USER ID (FIX)
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
 
   const fetchBudgets = useCallback(async () => {
     try {
-      const res = await api.get(`/budgets/${user?.id}`);
+      const res = await api.get(`/budgets/${userId}`);
       setBudgets(res.data);
     } catch (err) {
       console.error(err);
     }
-  }, [user?.id]);
+  }, [userId]);
 
   useEffect(() => {
-    if (user?.id) {
+    if (userId) {
       fetchBudgets();
     }
   }, [fetchBudgets]);
@@ -29,10 +29,10 @@ function BudgetPage({ expenses }) {
   const handleAdd = async (e) => {
     e.preventDefault();
 
-    if (!category || !amount || !user?.id) return;
+    if (!category || !amount || !userId) return;
 
     try {
-      await api.post(`/budgets/${user.id}`, {
+      await api.post(`/budgets/${userId}`, {
         category,
         amount: Number(amount)
       });
