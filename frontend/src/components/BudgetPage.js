@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import api from "../api";
 import { Trash2 } from "lucide-react";
 
@@ -11,20 +11,20 @@ function BudgetPage({ expenses }) {
   // ✅ GET LOGGED IN USER
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const fetchBudgets = async () => {
+  const fetchBudgets = useCallback(async () => {
     try {
-      const res = await api.get(`/budgets/${user?.id}`); // ✅ FIXED
+      const res = await api.get(`/budgets/${user?.id}`);
       setBudgets(res.data);
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [user?.id]);
 
   useEffect(() => {
     if (user?.id) {
       fetchBudgets();
     }
-  }, [user?.id, fetchBudgets]);
+  }, [fetchBudgets]);
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ function BudgetPage({ expenses }) {
     if (!category || !amount || !user?.id) return;
 
     try {
-      await api.post(`/budgets/${user.id}`, { // ✅ FIXED
+      await api.post(`/budgets/${user.id}`, {
         category,
         amount: Number(amount)
       });
