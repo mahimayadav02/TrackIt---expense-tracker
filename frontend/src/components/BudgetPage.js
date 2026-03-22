@@ -24,7 +24,7 @@ function BudgetPage({ expenses }) {
     if (user?.id) {
       fetchBudgets();
     }
-  }, []);
+  }, [user?.id]);
 
   const handleAdd = async (e) => {
     e.preventDefault();
