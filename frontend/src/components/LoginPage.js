@@ -25,8 +25,18 @@ function LoginPage({ setUser, setShowSignup }) {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100">
+    <div className="h-screen flex flex-col items-center justify-center bg-gradient-to-br from-indigo-100 to-purple-100">
 
+      {/* 🔥 BRANDING */}
+      <h1 className="text-5xl font-extrabold text-indigo-600 mb-1">
+        TrackIt
+      </h1>
+
+      <p className="text-lg font-semibold text-indigo-600 mb-6">
+        Your personal finance buddy
+      </p>
+
+      {/* LOGIN CARD */}
       <div className="bg-white/80 backdrop-blur-lg p-10 rounded-2xl shadow-xl w-96">
 
         <h2 className="text-2xl font-bold text-center mb-2 text-gray-800">
