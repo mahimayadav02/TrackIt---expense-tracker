@@ -24,7 +24,8 @@ function BudgetPage({ expenses }) {
     if (userId) {
       fetchBudgets();
     }
-  }, [fetchBudgets]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleAdd = async (e) => {
     e.preventDefault();
