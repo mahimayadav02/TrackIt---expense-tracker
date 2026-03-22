@@ -8,9 +8,12 @@ function BudgetPage({ expenses }) {
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
 
+  // ✅ GET LOGGED IN USER
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const fetchBudgets = async () => {
     try {
-      const res = await api.get("/budgets/9");
+      const res = await api.get(`/budgets/${user?.id}`); // ✅ FIXED
       setBudgets(res.data);
     } catch (err) {
       console.error(err);
@@ -18,18 +21,20 @@ function BudgetPage({ expenses }) {
   };
 
   useEffect(() => {
-    fetchBudgets();
+    if (user?.id) {
+      fetchBudgets();
+    }
   }, []);
 
   const handleAdd = async (e) => {
     e.preventDefault();
 
-    if (!category || !amount) return; // ✅ prevent empty submit
+    if (!category || !amount || !user?.id) return;
 
     try {
-      await api.post("/budgets/9", {
+      await api.post(`/budgets/${user.id}`, { // ✅ FIXED
         category,
-        amount: Number(amount) // ✅ FIX: ensure number
+        amount: Number(amount)
       });
 
       setCategory("");
@@ -90,7 +95,6 @@ function BudgetPage({ expenses }) {
           className="px-4 py-2 border rounded-lg w-1/3"
         />
 
-        {/* ✅ CRITICAL FIX */}
         <button
           type="submit"
           className="px-5 py-2 bg-indigo-600 text-white rounded-lg"
