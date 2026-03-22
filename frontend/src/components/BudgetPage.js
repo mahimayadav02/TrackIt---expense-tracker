@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../api";   // ✅ changed
+import api from "../api";
 import { Trash2 } from "lucide-react";
 
 function BudgetPage({ expenses }) {
@@ -10,7 +10,7 @@ function BudgetPage({ expenses }) {
 
   const fetchBudgets = async () => {
     try {
-      const res = await api.get("/budgets/9");   // ✅ changed
+      const res = await api.get("/budgets/9");
       setBudgets(res.data);
     } catch (err) {
       console.error(err);
@@ -24,10 +24,12 @@ function BudgetPage({ expenses }) {
   const handleAdd = async (e) => {
     e.preventDefault();
 
+    if (!category || !amount) return; // ✅ prevent empty submit
+
     try {
-      await api.post("/budgets/9", {   // ✅ changed
+      await api.post("/budgets/9", {
         category,
-        amount
+        amount: Number(amount) // ✅ FIX: ensure number
       });
 
       setCategory("");
@@ -38,23 +40,20 @@ function BudgetPage({ expenses }) {
     }
   };
 
-  // ✅ DELETE BUDGET
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Delete this budget?");
     if (!confirmDelete) return;
 
     try {
-      await api.delete(`/budgets/${id}`);   // ✅ changed
+      await api.delete(`/budgets/${id}`);
       fetchBudgets();
     } catch (err) {
       console.error(err);
     }
   };
 
-  // 🔥 unique categories from expenses
   const categories = [...new Set(expenses.map(e => e.category))];
 
-  // 🔥 spent calc
   const getSpent = (cat) => {
     return expenses
       .filter(e => e.category === cat && e.type === "debit")
@@ -64,7 +63,6 @@ function BudgetPage({ expenses }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm border p-6">
 
-      {/* ADD BUDGET */}
       <h2 className="text-xl font-semibold mb-6">Set Budget</h2>
 
       <form onSubmit={handleAdd} className="flex gap-4 mb-8">
@@ -92,7 +90,11 @@ function BudgetPage({ expenses }) {
           className="px-4 py-2 border rounded-lg w-1/3"
         />
 
-        <button className="px-5 py-2 bg-indigo-600 text-white rounded-lg">
+        {/* ✅ CRITICAL FIX */}
+        <button
+          type="submit"
+          className="px-5 py-2 bg-indigo-600 text-white rounded-lg"
+        >
           Add
         </button>
 
