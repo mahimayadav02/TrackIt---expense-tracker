@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";   // ✅ changed
 import { Trash2 } from "lucide-react";
 
 function BudgetPage({ expenses }) {
@@ -10,7 +10,7 @@ function BudgetPage({ expenses }) {
 
   const fetchBudgets = async () => {
     try {
-      const res = await axios.get("http://localhost:8081/budgets/9");
+      const res = await api.get("/budgets/9");   // ✅ changed
       setBudgets(res.data);
     } catch (err) {
       console.error(err);
@@ -25,7 +25,7 @@ function BudgetPage({ expenses }) {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8081/budgets/9", {
+      await api.post("/budgets/9", {   // ✅ changed
         category,
         amount
       });
@@ -44,7 +44,7 @@ function BudgetPage({ expenses }) {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:8081/budgets/${id}`);
+      await api.delete(`/budgets/${id}`);   // ✅ changed
       fetchBudgets();
     } catch (err) {
       console.error(err);
@@ -69,7 +69,6 @@ function BudgetPage({ expenses }) {
 
       <form onSubmit={handleAdd} className="flex gap-4 mb-8">
 
-        {/* ✅ DROPDOWN */}
         <select
           value={category}
           onChange={(e)=>setCategory(e.target.value)}
@@ -99,7 +98,6 @@ function BudgetPage({ expenses }) {
 
       </form>
 
-      {/* BUDGET LIST */}
       <div className="space-y-4">
 
         {budgets.map((b) => {
@@ -110,7 +108,6 @@ function BudgetPage({ expenses }) {
           return (
             <div key={b.id} className="border p-4 rounded-xl">
 
-              {/* TOP ROW */}
               <div className="flex justify-between items-center mb-2">
 
                 <span className="font-medium">{b.category}</span>
@@ -119,7 +116,6 @@ function BudgetPage({ expenses }) {
 
                   <span>₹{b.amount}</span>
 
-                  {/* ✅ DELETE ICON */}
                   <button
                     onClick={() => handleDelete(b.id)}
                     className="text-gray-400 hover:text-red-500"
@@ -130,7 +126,6 @@ function BudgetPage({ expenses }) {
                 </div>
               </div>
 
-              {/* PROGRESS */}
               <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div
                   className="bg-indigo-500 h-2 rounded-full"

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";   // ✅ changed
 
 function LoginPage({ setUser, setShowSignup }) {
 
@@ -8,18 +8,13 @@ function LoginPage({ setUser, setShowSignup }) {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:8081/auth/login", {
+      const res = await api.post("/auth/login", {   // ✅ changed
         email,
         password
       });
 
-      // ✅ FULL USER FROM BACKEND
       const userData = res.data;
 
-      // ❌ NO TOKEN NEEDED FOR NOW
-      // localStorage.setItem("token", res.data);
-
-      // ✅ STORE USER
       localStorage.setItem("user", JSON.stringify(userData));
       setUser(userData);
 

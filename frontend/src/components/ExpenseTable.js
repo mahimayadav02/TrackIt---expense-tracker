@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api";   // ✅ changed
 import { Trash2 } from "lucide-react";
 
 function ExpenseTable({ expenses, refreshExpenses }) {
@@ -8,7 +8,7 @@ function ExpenseTable({ expenses, refreshExpenses }) {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:8081/expenses/${id}`);
+      await api.delete(`/expenses/${id}`);   // ✅ changed
       refreshExpenses();
     } catch (error) {
       console.error("Error deleting expense:", error);
@@ -28,7 +28,6 @@ function ExpenseTable({ expenses, refreshExpenses }) {
 
       <table className="w-full text-left border-collapse">
 
-        {/* HEADER */}
         <thead>
           <tr className="text-gray-500 text-sm">
             <th className="pb-4 font-medium">Date</th>
@@ -40,7 +39,6 @@ function ExpenseTable({ expenses, refreshExpenses }) {
           </tr>
         </thead>
 
-        {/* BODY */}
         <tbody>
           {expenses.map((exp, index) => {
 
@@ -50,27 +48,22 @@ function ExpenseTable({ expenses, refreshExpenses }) {
                 className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"} text-sm`}
               >
 
-                {/* DATE */}
                 <td className="py-4 text-gray-700">
                   {exp.date ? new Date(exp.date).toLocaleDateString() : "-"}
                 </td>
 
-                {/* TYPE */}
                 <td className="py-4 text-gray-800 font-medium">
                   {exp.type || "-"}
                 </td>
 
-                {/* CATEGORY */}
                 <td className="py-4 text-gray-700">
                   {exp.category || "-"}
                 </td>
 
-                {/* ✅ FIXED DESCRIPTION (NOW BLACK) */}
                 <td className="py-4 text-gray-900">
                   {exp.description || "—"}
                 </td>
 
-                {/* AMOUNT */}
                 <td
                   className={`py-4 text-right font-semibold ${
                     exp.type === "credit"
@@ -83,7 +76,6 @@ function ExpenseTable({ expenses, refreshExpenses }) {
                   ₹{exp.amount ?? 0}
                 </td>
 
-                {/* DELETE */}
                 <td className="py-4 text-right">
                   <button
                     onClick={() => handleDelete(exp.id)}

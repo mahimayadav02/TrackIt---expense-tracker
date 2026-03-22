@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "./api";   // ✅ CHANGED
 import BudgetPage from "./components/BudgetPage";
 import ProfilePage from "./components/ProfilePage";
 import InsightsPage from "./components/InsightsPage";
@@ -37,8 +37,8 @@ function App() {
     if (!user?.id) return;
 
     try {
-      const response = await axios.get(
-        `http://localhost:8081/expenses/${user.id}`
+      const response = await api.get(   // ✅ CHANGED
+        `/expenses/${user.id}`          // ✅ CHANGED
       );
       setExpenses(response.data);
     } catch (error) {

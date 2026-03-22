@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";   // ✅ changed
 
 function AddExpense({ refreshExpenses, user }) {
 
@@ -15,8 +15,8 @@ function AddExpense({ refreshExpenses, user }) {
     if (!user?.id) return;
 
     try {
-      await axios.post(
-        `http://localhost:8081/expenses/${user.id}`, // ✅ FIXED
+      await api.post(   // ✅ changed
+        `/expenses/${user.id}`,   // ✅ removed localhost
         {
           category,
           amount,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";   // ✅ changed
 
 function SignupPage({ setShowSignup }) {
 
@@ -9,7 +9,7 @@ function SignupPage({ setShowSignup }) {
 
   const handleSignup = async () => {
     try {
-      await axios.post("http://localhost:8081/auth/register", {
+      await api.post("/auth/register", {   // ✅ changed
         name,
         email,
         password
