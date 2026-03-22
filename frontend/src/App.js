@@ -74,13 +74,6 @@ function App() {
     )
     .reduce((sum, e) => sum + e.amount, 0);
 
-  const totalCredit = expenses
-    .filter((e) => e.type === "credit")
-    .reduce((sum, e) => sum + e.amount, 0);
-
-  const totalDebit = expenses
-    .filter((e) => e.type === "debit")
-    .reduce((sum, e) => sum + e.amount, 0);
 
   const filteredExpenses = expenses.filter((e) => {
     const matchesSearch =
